@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "957903338892",
+    "firebase_url": "https://route-my-way-c374b.firebaseio.com",
+    "project_id": "route-my-way-c374b",
+    "storage_bucket": "route-my-way-c374b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957903338892:android:c81e99f19f1288a1",
+        "android_client_info": {
+          "package_name": "itec.routeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "957903338892-7i9nfes4i8efk50mhetl9aic2tgnuqia.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "itec.routeapp",
+            "certificate_hash": "4e7b31e0be01392c4edeee05a4a5496e96491750"
+          }
+        },
+        {
+          "client_id": "957903338892-beh9jti539p32phlnlp352qjnn238vi9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSAtcvYfEjn3USbzvOuL-jK1GZDzX_z48"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "957903338892-beh9jti539p32phlnlp352qjnn238vi9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
