@@ -3,6 +3,7 @@ package itec.routeapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -14,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import itec.routeapp.AppState;
 import itec.routeapp.R;
 
-public class ItemListActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     // Firebase authentication
     private FirebaseAuth mAuth;
@@ -25,7 +26,7 @@ public class ItemListActivity extends AppCompatActivity {
     private TextView email;
     private GridView itemGrid;
 
-    private static final String TAG = "ItemListActivity";
+    private static final String TAG = "MainActivity";
 
     // Request codes
     private static final int REQ_SIGNIN = 3;
@@ -40,12 +41,9 @@ public class ItemListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_list);
-//        setTitle("Clothing items");
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_main);
 
-        email = (TextView)findViewById(R.id.welcome);
+//        email = (TextView)findViewById(R.id.welcome);
 
         mAuth = FirebaseAuth.getInstance();
         AppState.get().setAuth(mAuth);
@@ -54,15 +52,11 @@ public class ItemListActivity extends AppCompatActivity {
             public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                //todo nu merge asta/ceva de aici pus in onActivityResult?
                 if (user != null) {
                     if(!user.getUid().equals(latestUserId)){
-                        //todo should I remove previous user db listener?
                         latestUserId = user.getUid();
-                        email.setText("Welcome, " + user.getEmail() + " !");
+//                        email.setText("Welcome, " + user.getEmail() + " !");
                         AppState.get().setUserId(user.getUid());
-//                        clothingItems = new ArrayList<>();
-//                        AppState.get().setAllItems(clothingItems);
                         attachDBListener(user.getUid());
                     }
                 } else {
@@ -225,4 +219,19 @@ public class ItemListActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }*/
+
+    //todo
+    public void clicked(View v){
+        switch (v.getId()){
+            case R.id.all_routes_image:
+                startActivity(new Intent(this, RouteListActivity.class));
+                break;
+            case R.id.new_route_image:
+                break;
+            case R.id.stats_image:
+                break;
+            case R.id.achievements_image:
+                break;
+        }
+    }
 }

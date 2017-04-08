@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="play-services-contextmanager-9.4.0">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/a58d5e36d36d0de9a3e15fec0fb1a5ccf7717556/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/a58d5e36d36d0de9a3e15fec0fb1a5ccf7717556/output/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-contextmanager/9.4.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-contextmanager/9.4.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

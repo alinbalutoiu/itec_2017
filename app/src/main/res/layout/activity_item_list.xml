@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="mihaela.closette.activities.ItemListActivity">-->
+    tools:context="mihaela.closette.activities.MainActivity">-->
 
     <!--<android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="itec.routeapp.activities.ItemListActivity">
+        tools:context="itec.routeapp.activities.MainActivity">
 
         <TextView
             android:text="Welcome: "
