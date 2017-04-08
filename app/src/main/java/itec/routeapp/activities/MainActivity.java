@@ -79,13 +79,6 @@ public class MainActivity extends AppCompatActivity {
         });*/
     }
 
-    public void createRecordingLocationActivity() {
-        Intent myIntent = new Intent(MainActivity.this, LocationRecordingActivity.class);
-        // For extra parameters
-        // myIntent.putExtra("key", value); //Optional parameters
-        MainActivity.this.startActivity(myIntent);
-    }
-
     private void attachDBListener(String uid) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         // todo must do for offline persistence
@@ -233,14 +226,21 @@ public class MainActivity extends AppCompatActivity {
         switch (v.getId()){
             case R.id.all_routes_image:
 //                startActivity(new Intent(this, RouteListActivity.class));
-                createRecordingLocationActivity();
                 break;
             case R.id.new_route_image:
+                createRecordingLocationActivity();
                 break;
             case R.id.stats_image:
                 break;
             case R.id.achievements_image:
                 break;
         }
+    }
+
+    public void createRecordingLocationActivity() {
+        Intent myIntent = new Intent(MainActivity.this, LocationRecordingActivity.class);
+        // For extra parameters
+        // myIntent.putExtra("key", value); //Optional parameters
+        MainActivity.this.startActivity(myIntent);
     }
 }
