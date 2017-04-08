@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import itec.routeapp.AppState;
+import itec.routeapp.NewRoute.LocationRecordingActivity;
 import itec.routeapp.R;
 import itec.routeapp.utils.AuthUtils;
 
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-
 //        createStartRecordingButtonListener();
     }
 
@@ -123,6 +123,13 @@ public class MainActivity extends AppCompatActivity {
         Intent myIntent = new Intent(MainActivity.this, LocationRecordingActivity.class);
         // For extra parameters
         // myIntent.putExtra("key", value); //Optional parameters
+        myIntent.putExtra("minTime", 1); // in seconds (int)
+        myIntent.putExtra("minDistance", 1); // in meters (float)
         MainActivity.this.startActivity(myIntent);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

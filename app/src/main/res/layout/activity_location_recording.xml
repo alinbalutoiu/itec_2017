@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/black_overlay"
     android:weightSum="4"
-    tools:context="itec.routeapp.activities.LocationRecordingActivity">
+    tools:context="itec.routeapp.NewRoute.LocationRecordingActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -17,7 +17,7 @@
         android:id="@+id/realtime_viewer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Realtime Viewer"
+        android:text="@string/realtime_viewing_on"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="19dp" />
@@ -43,4 +43,30 @@
         android:text="@string/start_recording_location"
         android:textAlignment="center"
         android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/location_recorded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:text="Location is being recorded"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@android:color/holo_red_light"
+        android:textColorHighlight="@android:color/holo_red_light"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_above="@+id/realtime_viewer"
+        android:layout_below="@+id/start_recording_button" />
 </RelativeLayout>
