@@ -6,6 +6,6 @@ package itec.routeapp.model;
 
 public enum DayOfWeek {
 
-    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+    SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
 
 }

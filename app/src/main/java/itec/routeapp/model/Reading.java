@@ -12,39 +12,44 @@ import java.util.Date;
 @IgnoreExtraProperties
 public class Reading implements Serializable{
 
-    private Date timestamp;
+    private long elapsedRealtimeNanos;
 
-    private String latitude;
-    private String longitude;
-    private String altitude;
+    private Double latitude;
+    private Double longitude;
+    private Double altitude;
 
-    private Double avgSpeed;
-    private Double legalSpeedLimit;
+    private float speed;
+//    private Double legalSpeedLimit;
 
     public Reading() {
     }
 
-    public String getAltitude() {
-        return altitude;
+    public Reading(long elapsedRealtimeNanos, Double latitude, Double longitude, Double altitude,
+                   float speed) {
+        this.elapsedRealtimeNanos = elapsedRealtimeNanos;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.altitude = altitude;
+        this.speed = speed;
     }
 
-    public Double getAvgSpeed() {
-        return avgSpeed;
+    public long getElapsedRealtimeNanos() {
+        return elapsedRealtimeNanos;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public Double getLegalSpeedLimit() {
-        return legalSpeedLimit;
-    }
-
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Double getAltitude() {
+        return altitude;
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 }

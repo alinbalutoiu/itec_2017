@@ -8,26 +8,11 @@
 
     <!-- Activity titles -->
     <string name="title_calendar_act">Planned outfits</string>
-    <string name="title_clothing_items_act">Clothing items</string>
     <string name="title_login_act">Sign in to use app</string>
-    <string name="title_item_details_act">Item details</string>
-    <string name="title_edit_item_act">Edit item</string>
-    <string name="title_edit_outfit_act">Edit outfit</string>
-    <string name="title_outfit_list_act">Outfits</string>
-    <string name="title_outfit_details_act">Outfit details</string>
-
-    <!-- Outfits -->
-    <string name="outfit_category">Outfit category:</string>
-    <string name="outfit_event">Event:</string>
-    <string name="outfit_event_question">Where will you wear this?</string>
-    <string name="action_schedule">Schedule</string>
 
     <!-- Dialogs -->
     <string name="discard_changes">Discard</string>
     <string name="changes_not_saved_warning">Changes not saved! Are you sure?</string>
-
-    <!-- Menu options -->
-    <string name="action_scheduled_outfits">Scheduled outfits</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -42,16 +27,6 @@
     <string name="action_all_items">All items</string>
     <string name="action_outfits">Outfits</string>
     <string name="action_sign_out">Sign out</string>
-
-    <!-- Detail page strings -->
-    <string name="category">Category:</string>
-    <string name="primary_colors">Primary colors:</string>
-    <string name="secondary_colors">Secondary colors:</string>
-    <string name="occasion_style">Occasion/Style:</string>
-    <string name="warmth_index">Warmth index:</string>
-    <string name="times_worn">Times worn:</string>
-    <string name="times_used">Times used:</string>
-    <string name="last_worn">Last worn:</string>
 
 
     <!-- Firebase UI -->
@@ -123,4 +98,9 @@
     <string name="title_activity_location_recording">LocationRecordingActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+
+    <string name="today">TODAY</string>
+    <string name="monthly_achievements">Monthly achievements</string>
+
 </resources>

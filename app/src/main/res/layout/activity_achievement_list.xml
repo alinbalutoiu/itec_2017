@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="itec.routeapp.activities.AchievementListActivity">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_achievement_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/today_ach_cv"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="4dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="4dp">
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_trees"
+                    android:id="@+id/ach_trees_img"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:padding="3dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/today"
+                    android:id="@+id/ach_today_text"
+                    android:gravity="center_horizontal"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentTop="true"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:textSize="25dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ach_today_text"
+                    android:layout_alignLeft="@id/ach_today_text"
+                    android:hint="Eco friendly: 2 times"
+                    android:padding="6dp"/>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/monthly_achievements"
+            android:id="@+id/ach_monthly_text"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/today_ach_cv"
+            android:paddingTop="3dp"
+            android:paddingLeft="7dp"
+            android:paddingBottom="3dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            />
+
+        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
+            android:id="@+id/expandable_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ach_monthly_text"
+            android:padding="8dp">
+        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+
+    </RelativeLayout>
+</ScrollView>

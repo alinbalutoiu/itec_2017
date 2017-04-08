@@ -15,17 +15,21 @@ public class Route implements Serializable{
 
     private int year, month, day;
 
-    private String timestamp;
+    private long timeMillis;
+    // used to compare location fixes
+    private long elapsedRealtimeNanos;
+
+    private DayOfWeek dayOfWeek;
 
     private List<Reading> readings;
 
-    private String name;
+//    private String name;
 
 //    private weather
 
     private MeansOfTransport transport;
 
-    private int percentGoodDriver;
+//    private int percentGoodDriver;
 
     public Route() {
     }
@@ -38,13 +42,9 @@ public class Route implements Serializable{
         return month;
     }
 
-    public String getName() {
+    /*public String getName() {
         return name;
-    }
-
-    public int getPercentGoodDriver() {
-        return percentGoodDriver;
-    }
+    }*/
 
     public List<Reading> getReadings() {
         return readings;
@@ -58,7 +58,51 @@ public class Route implements Serializable{
         return transport;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public long getTimeMillis() {
+        return timeMillis;
+    }
+
+    public void setTimeMillis(long timeMillis) {
+        this.timeMillis = timeMillis;
+    }
+
+    public void setReadings(List<Reading> readings) {
+        this.readings = readings;
+    }
+
+    /*public void setName(String name) {
+        this.name = name;
+    }*/
+
+    public void setTransport(MeansOfTransport transport) {
+        this.transport = transport;
+    }
+
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public long getElapsedRealtimeNanos() {
+        return elapsedRealtimeNanos;
+    }
+
+    public void setElapsedRealtimeNanos(long elapsedRealtimeNanos) {
+        this.elapsedRealtimeNanos = elapsedRealtimeNanos;
     }
 }

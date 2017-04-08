@@ -28,18 +28,12 @@ public class AppState extends Application{
 
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
-//    private FirebaseStorage storage;
-//    private StorageReference storageRef;
 
-    private static final String subfolderName = "routes";
+//    private static final String subfolderName = "routes";
 
     public static synchronized AppState get() {
         if(singletonInstance == null){
             singletonInstance = new AppState();
-            // Firebase storage setup
-//            singletonInstance.setStorage(FirebaseStorage.getInstance());
-//            singletonInstance.setStorageRef(FirebaseStorage.getInstance()
-//                    .getReferenceFromUrl("gs://closettedbtest.appspot.com/closette"));
         }
         return singletonInstance;
     }
@@ -47,15 +41,11 @@ public class AppState extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-
-        // offline persistence of data
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
-    public void saveRouteToFile(Context context, Route route){
-        String fileName = route.getTimestamp();
+    /*public void saveRouteToFile(Context context, Route route){
+        String fileName = route.getTimeMillis();
 
-        // todo check permissions
         File folder = new File(context.getFilesDir() + File.separator + subfolderName);
         if(!folder.exists()){
             folder.mkdir();
@@ -70,7 +60,7 @@ public class AppState extends Application{
         } catch (IOException e) {
             Toast.makeText(context, "Cannot access local data.", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(
