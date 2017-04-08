@@ -114,7 +114,7 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
             return null;
     }
 
-    static private int chooseColor(int speed) {
+    static public int chooseColor(int speed) {
         if (speed < 15)
             return Color.GREEN;
         else if (speed < 30)
