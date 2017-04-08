@@ -23,8 +23,8 @@ public class LocationService extends Service {
     // FLAG_IMMUTABLE or any of the flags as supported by Intent.fillIn() to control which
     // unspecified parts of the intent that can be supplied when the actual send happens.
     private static final int flags = PendingIntent.FLAG_CANCEL_CURRENT;
-    private LocationManager mLocationManager = null;
-    private PendingIntent pendingIntent;
+    private static LocationManager mLocationManager = null;
+    private static PendingIntent pendingIntent;
 
     static public void setMinTime(int requestedMinTime) {
         minTime = requestedMinTime * 1000; // milliseconds
@@ -100,6 +100,14 @@ public class LocationService extends Service {
             mLocationManager = null;
         }
     }
+
+    public static void cleanup() {
+        if (mLocationManager != null) {
+            mLocationManager.removeUpdates(pendingIntent);
+            mLocationManager = null;
+        }
+    }
+
 
     private void initializeLocationManager() {
         Log.e(TAG, "initializeLocationManager");

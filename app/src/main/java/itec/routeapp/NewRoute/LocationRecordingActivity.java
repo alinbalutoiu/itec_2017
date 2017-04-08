@@ -1,10 +1,12 @@
 package itec.routeapp.NewRoute;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -27,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import itec.routeapp.R;
+import itec.routeapp.model.MeansOfTransport;
+import itec.routeapp.utils.PersistenceUtils;
 
 
 public class LocationRecordingActivity extends Activity implements OnMapReadyCallback {
@@ -35,40 +39,72 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
     private static MapFragment mMap = null;
     private static GoogleMap gMap = null;
     private static boolean map_inited = false;
+    private static List<PolylineOptions> mPolylineOptionsList = new ArrayList<>();
     private static PolylineOptions mPolylineOptions = null;
     private static LatLng startingPoint = null;
+    private static List<Location> pointsToBeUpdated = new ArrayList<>();
+    private static int zoomCamera = 16;
+    private static boolean isRealTimeOn = false;
+    private static int lineWidth = 24;
     private int minTime = 8; // Default to 8 seconds
     private int minDistance = 100; // Default to 100 meters
     private Intent serviceIntent = null;
 
     static public void add_location_to_list(Location loc) {
-        Log.e(TAG, "add_location_to_list called");
-        Log.e(TAG, "current location to be added: " + loc.toString());
-        Log.e(TAG, "current size: " + location_points_list.size());
-//        if (location_points_list.size() == 1) {
-//            Location cLoc = location_points_list.get(location_points_list.size() - 1);
-//            List<Location> locs = new ArrayList<>();
-//            locs.add(cLoc);
-//            locs.add(loc);
-//            drawPolyLineOnMap(locs, gMap);
-//        }
+        Log.e(TAG, "Current location: " + loc.toString());
         location_points_list.add(loc);
-        LatLng cLatLng = new LatLng(loc.getLatitude(), loc.getLongitude());
-        if (gMap != null) {
-            updateGMaps(cLatLng);
+        if (isMapVisible() && gMap != null) {
+            if (pointsToBeUpdated.size() > 0) {
+                // We have multiple points to update
+                updateGMaps(null, pointsToBeUpdated);
+                pointsToBeUpdated = new ArrayList<>();
+            }
+            updateGMaps(loc, null);
+        } else {
+            pointsToBeUpdated.add(loc);
         }
-        Log.e(TAG, "new size: " + location_points_list.size());
     }
 
-    static private void updateGMaps(LatLng latLng) {
-        updatePolyline(latLng);
-        updateMarker(latLng);
-        updateCamera(latLng);
+    static private void updateGMaps(Location singleLoc, List<Location> locationList) {
+        if (locationList == null) {
+            Log.e(TAG, "Updating GMaps with single element");
+            LatLng latLng = new LatLng(singleLoc.getLatitude(), singleLoc.getLongitude());
+            updatePolyline(singleLoc, location_points_list.get(location_points_list.size() - 2));
+            updateMarker(latLng);
+            updateCamera(latLng);
+        } else {
+            Log.e(TAG, "Updating GMaps with list");
+            LatLng last_point = null;
+            Location previousLoc = location_points_list.get(location_points_list.size() - locationList.size());
+            for (Location y : locationList) {
+                LatLng x = new LatLng(y.getLatitude(), y.getLongitude());
+                updatePolyline(y, previousLoc);
+                updateMarker(x);
+                last_point = x;
+                previousLoc = y;
+            }
+            updateCamera(last_point);
+        }
     }
 
     static public void clear_points_list() {
+        // TODO: choose between car, bus and foot.
         location_points_list = null;
         location_points_list = new ArrayList<>();
+        mPolylineOptions = new PolylineOptions();
+        if (gMap != null) {
+            if (isRealTimeOn) {
+                Log.e(TAG, "REALTIME " + isRealTimeOn);
+                gMap.clear();
+                mPolylineOptionsList = new ArrayList<>();
+            } else {
+                Log.e(TAG, "REALTIME " + isRealTimeOn);
+                gMap.clear();
+                mPolylineOptionsList = new ArrayList<>();
+                gMap = null;
+                map_inited = false;
+            }
+        }
     }
 
     static public List<Location> get_current_points_list() {
@@ -78,9 +114,44 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
             return null;
     }
 
-    static private void updatePolyline(LatLng mLatLng) {
+    static private int chooseColor(int speed) {
+        if (speed < 15)
+            return Color.GREEN;
+        else if (speed < 30)
+            return Color.BLUE;
+        else if (speed < 45)
+            return Color.YELLOW;
+        else if (speed < 60)
+            return Color.CYAN;
+        else if (speed < 75)
+            return Color.RED;
+        else
+            return Color.BLACK;
+    }
+
+    static private void updatePolyline(Location mLoc, Location previousLoc) {
         gMap.clear();
-        gMap.addPolyline(mPolylineOptions.add(mLatLng));
+        LatLng mLatLng = new LatLng(mLoc.getLatitude(), mLoc.getLongitude());
+        LatLng mLatLngPrev = new LatLng(previousLoc.getLatitude(), previousLoc.getLongitude());
+        int new_color = chooseColor((int) mLoc.getSpeed());
+        boolean switched_color = false;
+        if (mPolylineOptions.getColor() != new_color) {
+            mPolylineOptionsList.add(mPolylineOptions);
+            mPolylineOptions = new PolylineOptions();
+            switched_color = true;
+        }
+        Log.e(TAG, "CURRENT SPEED FROM GPS: " + (int) mLoc.getSpeed() + " km/h");
+        mPolylineOptions.color(new_color);
+        mPolylineOptions.width(lineWidth);
+        mPolylineOptions.add(mLatLngPrev);
+        mPolylineOptions.add(mLatLng);
+        for (PolylineOptions x : mPolylineOptionsList) {
+            Log.e(TAG, "ADDED POLYLINE______");
+            gMap.addPolyline(x);
+        }
+        if (!switched_color) {
+            gMap.addPolyline(mPolylineOptions);
+        }
     }
 
     static private void updateMarker(LatLng mLatLng) {
@@ -88,7 +159,7 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
     }
 
     static private void updateCamera(LatLng mLatLng) {
-        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 16));
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, zoomCamera));
     }
 
     @Override
@@ -117,10 +188,6 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
 
             @Override
             public void onClick(View view) {
-                if (enabled == 0 && !isRealTimeViewerOn()) {
-                    init_realtime();
-                    uninit_realtime();
-                }
                 if (enabled == 0) {
                     init_recording();
                     start_recording.setText(getString(R.string.stop_recording_location));
@@ -145,12 +212,18 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
 
             @Override
             public void onClick(View view) {
+                if (enabled == 0 && !isRecordingLocation() && !isNetworkConnected()) {
+                    if (previousToast != null) {
+                        previousToast.cancel();
+                    }
+                    previousToast = Toast.makeText(view.getContext(), "Internet must be enabled for this feature. Data might not be accurate.", Toast.LENGTH_SHORT);
+                    previousToast.show();
+                }
                 if (isRecordingLocation() && !isMapShown()) {
                     if (previousToast != null) {
-                        if (previousToast.getView().isShown())
-                            return;
+                        previousToast.cancel();
                     }
-                    previousToast = Toast.makeText(view.getContext(), "Location recording must be enabled", Toast.LENGTH_SHORT);
+                    previousToast = Toast.makeText(view.getContext(), "Location recording must be enabled", Toast.LENGTH_LONG);
                     previousToast.show();
                     return;
                 }
@@ -159,11 +232,13 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
                     realtimeReq.setVisibility(View.GONE);
                     init_realtime();
                     enabled = 1;
+                    isRealTimeOn = true;
                 } else {
                     realtimeViewer.setText(getString(R.string.realtime_viewing_on));
                     uninit_realtime();
                     realtimeReq.setVisibility(View.VISIBLE);
                     enabled = 0;
+                    isRealTimeOn = false;
                 }
             }
         });
@@ -171,10 +246,12 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
 
     private void init_realtime() {
 //        LocationManager lm
+        Log.e(TAG, "init_realtime");
         init_map();
     }
 
     private void uninit_realtime() {
+        Log.e(TAG, "uninit_realtime");
         hide_map();
     }
 
@@ -200,7 +277,10 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
     private void stopRecording() {
         if (serviceIntent != null) {
             stopService(serviceIntent);
+            serviceIntent = null;
         }
+        if (location_points_list != null)
+            PersistenceUtils.saveRoute(location_points_list, MeansOfTransport.CAR);
     }
 
     /**
@@ -258,7 +338,7 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
             mMap.getMapAsync(this);
             map_inited = true;
             mPolylineOptions = new PolylineOptions();
-            mPolylineOptions.color(Color.BLUE).width(10);
+            mPolylineOptions.color(Color.BLUE).width(lineWidth);
         } else {
             mMap.getView().setVisibility(View.VISIBLE);
 //            drawPolyLineOnMap(location_points_list, gMap);
@@ -278,6 +358,7 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
 
     private boolean isRecordingLocation() {
         Button start_recording = (Button) findViewById(R.id.start_recording_button);
+        Log.e(TAG, "isRecordingLocation: " + (start_recording.getText().equals(getString(R.string.start_recording_location))));
         return start_recording.getText().equals(getString(R.string.start_recording_location));
     }
 
@@ -286,8 +367,19 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
         return realtimeViewer.getText().equals(getString(R.string.realtime_viewing_on));
     }
 
+    private static boolean isMapVisible() {
+        if (mMap != null) {
+            return mMap.getView().isShown();
+        }
+        return false;
+    }
+
     private Location getLastKnownLocation() {
-        Location cLoc = location_points_list.get(location_points_list.size() - 1);
+        Location cLoc;
+        if (location_points_list.size() != 0)
+            cLoc = location_points_list.get(location_points_list.size() - 1);
+        else
+            cLoc = pointsToBeUpdated.get(0);
         return cLoc;
     }
 
@@ -317,6 +409,18 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
                 }
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocationService.cleanup();
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        Log.e(TAG, "isNetworkConnected: " + (cm.getActiveNetworkInfo() != null));
+        return cm.getActiveNetworkInfo() != null;
     }
 }
 

@@ -43,7 +43,7 @@ public class PersistenceUtils {
 
         route.setTimeMillis(routeStartingTime);
         route.setElapsedRealtimeNanos(points.get(0).getElapsedRealtimeNanos());
-        route.setDayOfWeek(DayOfWeek.values()[cal.get(Calendar.DAY_OF_WEEK)]);
+        route.setDayOfWeek(DayOfWeek.values()[cal.get(Calendar.DAY_OF_WEEK) - 1]);
         int day = cal.get(Calendar.DAY_OF_MONTH);
         route.setDay(day);
         int month = cal.get(Calendar.MONTH);
