@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+//        createStartRecordingButtonListener();
         /*itemGrid = (GridView)findViewById(R.id.itemsGrid);
 
         itemGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ItemDetailsActivity.class));
             }
         });*/
+    }
+
+    public void createRecordingLocationActivity() {
+        Intent myIntent = new Intent(MainActivity.this, LocationRecordingActivity.class);
+        // For extra parameters
+        // myIntent.putExtra("key", value); //Optional parameters
+        MainActivity.this.startActivity(myIntent);
     }
 
     private void attachDBListener(String uid) {
@@ -224,7 +232,8 @@ public class MainActivity extends AppCompatActivity {
     public void clicked(View v){
         switch (v.getId()){
             case R.id.all_routes_image:
-                startActivity(new Intent(this, RouteListActivity.class));
+//                startActivity(new Intent(this, RouteListActivity.class));
+                createRecordingLocationActivity();
                 break;
             case R.id.new_route_image:
                 break;

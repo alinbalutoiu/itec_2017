@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "itec.routeapp"
         minSdkVersion 14
@@ -49,4 +49,10 @@ apply plugin: 'com.google.gms.google-services'
 dependencies {
     compile 'com.google.android.gms:play-services-maps:9.4.0'
     compile 'com.android.support:appcompat-v7:25.0.1'
+}
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:+'
+}
+dependencies {
+    compile 'com.android.support:support-v4:25.+'
 }
