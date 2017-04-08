@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/activity_vertical_no_margin"
             android:layout_marginRight="@dimen/activity_vertical_no_margin"
-            android:src="@drawable/all_routes"
+            android:src="@drawable/btn_all_routes"
             android:scaleType="centerCrop"
             android:layout_weight="1"
             android:onClick="clicked"
@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/activity_vertical_no_margin"
-            android:src="@drawable/new_route"
+            android:src="@drawable/btn_new_route"
             android:scaleType="centerCrop"
             android:layout_weight="1"
             android:onClick="clicked"/>
@@ -77,7 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/activity_horizontal_no_margin"
-            android:src="@drawable/stats"
+            android:src="@drawable/btn_stats"
             android:scaleType="centerCrop"
             android:layout_weight="1"
             android:onClick="clicked"/>
@@ -86,7 +86,7 @@
             android:id="@+id/achievements_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/achievements"
+            android:src="@drawable/btn_achievements"
             android:scaleType="centerCrop"
             android:layout_weight="1"
             android:onClick="clicked"/>

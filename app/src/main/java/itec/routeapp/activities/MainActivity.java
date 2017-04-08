@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Request codes
     private static final int REQ_SIGNIN = 3;
-//    private static final int REQUEST_CAMERA = 4;
-//    private static final int SELECT_FILE = 5;
 
     private String userChosenTask;
 
@@ -53,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                     if(!user.getUid().equals(latestUserId)){
                         latestUserId = user.getUid();
                         AppState.get().setUserId(user.getUid());
-                        attachDBListener(user.getUid());
                     }
                 } else {
                     latestUserId = null;
@@ -63,13 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 //        createStartRecordingButtonListener();
-    }
-
-    private void attachDBListener(String uid) {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true);
-        databaseReference = database.getReference();
-        AppState.get().setDatabaseReference(databaseReference);
     }
 
     @Override
@@ -115,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.stats_image:
                 break;
             case R.id.achievements_image:
-                break;
+                startActivity(new Intent(this, AchievementListActivity.class));
         }
     }
 

@@ -18,7 +18,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/direction"
         android:label="@string/app_name"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/Theme.AppTheme">
         <service android:name=".NewRoute.LocationService"></service>
         <receiver android:name=".NewRoute.LocationReceiver">
@@ -27,20 +27,16 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            </intent-filter>
-        </activity>
+        <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.MainActivity">
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.AchievementListActivity"/>
+        <activity android:name=".activities.RouteListActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -61,7 +57,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_location_recording"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".activities.AchievementListActivity"></activity>
     </application>
 
 </manifest>

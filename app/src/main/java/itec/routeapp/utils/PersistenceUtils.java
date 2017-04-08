@@ -1,9 +1,12 @@
 package itec.routeapp.utils;
 
 import android.location.Location;
+import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +24,11 @@ import itec.routeapp.model.Route;
  */
 
 public class PersistenceUtils {
+
+    private static final String TAG = "PersistenceUtils";
+
+    private static Integer monthlyAchievementCounter;
+    private static Integer dailyAchievementCounter;
 
     public static void saveRoute(List<Location> points, MeansOfTransport meansOfTransport){
         if(points == null || points.size() == 0){
@@ -58,6 +66,53 @@ public class PersistenceUtils {
                 .child(String.valueOf(month)).child(String.valueOf(day))
                 .child(String.valueOf(routeStartingTime))
                 .setValue(route);
+    }
+
+    public static void addAchievement(){
+        DatabaseReference database = AppState.get().getDatabaseReference();
+        Calendar cal = Calendar.getInstance();
+        String year = String.valueOf(cal.get(Calendar.YEAR));
+        String month = String.valueOf(cal.get(Calendar.MONTH));
+        String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+        // read current value of the monthly counter
+        DatabaseReference monthRef = database.child(AppState.get().getUserId()).child("achievements")
+                .child(year).child(month);
+        monthRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                setMonthlyAchievementCounter((Integer)(dataSnapshot.getValue()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "Could not read monthly achievement count from the database!");
+            }
+        });
+
+        DatabaseReference dayRef = monthRef.child(day);
+        dayRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        setDailyAchievementCounter((Integer)(dataSnapshot.getValue()));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e(TAG, "Could not read daily achievement count from the database!");
+                    }
+                });
+
+        // increment the counters
+        monthRef.setValue(monthlyAchievementCounter+1);
+        dayRef.setValue(dailyAchievementCounter+1);
+    }
+
+    private static void setMonthlyAchievementCounter(int counter){
+        monthlyAchievementCounter = counter;
+    }
+
+    private static void setDailyAchievementCounter(int counter){
+        dailyAchievementCounter = counter;
     }
 
 }

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,6 +35,7 @@ public class AppState extends Application{
     public static synchronized AppState get() {
         if(singletonInstance == null){
             singletonInstance = new AppState();
+            singletonInstance.setDatabaseReference(FirebaseDatabase.getInstance().getReference());
         }
         return singletonInstance;
     }
@@ -41,6 +43,7 @@ public class AppState extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     /*public void saveRouteToFile(Context context, Route route){

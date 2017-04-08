@@ -33,7 +33,7 @@
                 android:text="Eco friendly: "/>
 
             <TextView
-                android:id="@+id/tTimes"
+                android:id="@+id/tCounter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
