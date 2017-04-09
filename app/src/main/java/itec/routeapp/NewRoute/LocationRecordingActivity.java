@@ -280,7 +280,7 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
             serviceIntent = null;
         }
         if (location_points_list != null)
-            PersistenceUtils.saveRoute(location_points_list, MeansOfTransport.CAR);
+            PersistenceUtils.saveRoute(location_points_list, MeansOfTransport.CAR.ordinal());
     }
 
     /**

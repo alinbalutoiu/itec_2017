@@ -30,7 +30,7 @@ public class PersistenceUtils {
     private static Integer monthlyAchievementCounter;
     private static Integer dailyAchievementCounter;
 
-    public static void saveRoute(List<Location> points, MeansOfTransport meansOfTransport){
+    public static void saveRoute(List<Location> points, int meansOfTransport){
         if(points == null || points.size() == 0){
             return;
         }
@@ -43,7 +43,7 @@ public class PersistenceUtils {
 
         route.setTimeMillis(routeStartingTime);
         route.setElapsedRealtimeNanos(points.get(0).getElapsedRealtimeNanos());
-        route.setDayOfWeek(DayOfWeek.values()[cal.get(Calendar.DAY_OF_WEEK) - 1]);
+        route.setDayOfWeek(cal.get(Calendar.DAY_OF_WEEK));
         int day = cal.get(Calendar.DAY_OF_MONTH);
         route.setDay(day);
         int month = cal.get(Calendar.MONTH);
@@ -62,7 +62,8 @@ public class PersistenceUtils {
         // persist to firebase
         AppState appState = AppState.get();
         DatabaseReference database = appState.getDatabaseReference();
-        database.child(appState.getUserId()).child(String.valueOf(year))
+        database.child(appState.getUserId()).child("routes")
+                .child(String.valueOf(year))
                 .child(String.valueOf(month)).child(String.valueOf(day))
                 .child(String.valueOf(routeStartingTime))
                 .setValue(route);
@@ -77,7 +78,7 @@ public class PersistenceUtils {
         // read current value of the monthly counter
         DatabaseReference monthRef = database.child(AppState.get().getUserId()).child("achievements")
                 .child(year).child(month);
-        monthRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        monthRef.child("total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 setMonthlyAchievementCounter((Integer)(dataSnapshot.getValue()));

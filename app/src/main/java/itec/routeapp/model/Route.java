@@ -19,7 +19,7 @@ public class Route implements Serializable{
     // used to compare location fixes
     private long elapsedRealtimeNanos;
 
-    private DayOfWeek dayOfWeek;
+    private Integer dayOfWeek;
 
     private List<Reading> readings;
 
@@ -27,7 +27,7 @@ public class Route implements Serializable{
 
 //    private weather
 
-    private MeansOfTransport transport;
+    private int transport;
 
 //    private int percentGoodDriver;
 
@@ -54,7 +54,7 @@ public class Route implements Serializable{
         return year;
     }
 
-    public MeansOfTransport getTransport() {
+    public int getTransport() {
         return transport;
     }
 
@@ -86,15 +86,11 @@ public class Route implements Serializable{
         this.name = name;
     }*/
 
-    public void setTransport(MeansOfTransport transport) {
+    public void setTransport(int transport) {
         this.transport = transport;
     }
 
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+    public void setDayOfWeek(int dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 
@@ -104,5 +100,9 @@ public class Route implements Serializable{
 
     public void setElapsedRealtimeNanos(long elapsedRealtimeNanos) {
         this.elapsedRealtimeNanos = elapsedRealtimeNanos;
+    }
+
+    public Integer getDayOfWeek() {
+        return dayOfWeek;
     }
 }

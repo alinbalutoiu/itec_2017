@@ -43,62 +43,65 @@ public class AchievementListActivity extends AppCompatActivity {
         achievementList.setAdapter(adapter);
         achievementList.setExpanded(true);
 
-        // display daily achievements
         dailyAchText = (TextView)findViewById(R.id.counter_today);
-        AppState.get().getDatabaseReference().child(AppState.get().getUserId())
-                .child("achievements").child(DateUtils.getCurrentYear())
-                .child(DateUtils.getCurrentMonth()).child(DateUtils.getDayOfMonthForToday())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        updateTodayCounter((Integer)dataSnapshot.getValue());
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        dbCancelled(databaseError);
-                    }
-                });
-
-        // display achievements history list
-        String userId = AppState.get().getUserId();
-        DatabaseReference databaseReference = AppState.get().getDatabaseReference();
-        databaseReference.child(userId).child("achievements")
-                .addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        try{
-                            MonthlyAchievement achievement = dataSnapshot.getValue(MonthlyAchievement.class);
-                            achievement.setMonth(Integer.parseInt(dataSnapshot.getKey()));
-                            achievements.add(achievement);
-                            adapter.notifyDataSetChanged();
-
-                        }catch(Exception e){
-                            Log.e(TAG, e.getStackTrace().toString());
+        if(achievements.isEmpty()){
+            AppState.get().getDatabaseReference().child(AppState.get().getUserId())
+                    .child("achievements").child(DateUtils.getCurrentYear())
+                    .child(DateUtils.getCurrentMonth()).child(DateUtils.getDayOfMonthForToday())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            updateTodayCounter((Integer)dataSnapshot.getValue());
                         }
-                    }
 
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            dbCancelled(databaseError);
+                        }
+                    });
 
-                    }
+            // display achievements history list
+            String userId = AppState.get().getUserId();
+            DatabaseReference databaseReference = AppState.get().getDatabaseReference();
+            databaseReference.child(userId).child("achievements")
+                    .child(DateUtils.getCurrentYear())
+                    .addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                            try{
+                                MonthlyAchievement achievement = dataSnapshot.getValue(MonthlyAchievement.class);
+                                achievement.setMonth(Integer.parseInt(dataSnapshot.getKey()));
+                                achievements.add(achievement);
+                                adapter.notifyDataSetChanged();
 
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                            }catch(Exception e){
+                                Log.e(TAG, e.getStackTrace().toString());
+                            }
+                        }
+
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
                             /*Outfit o = dataSnapshot.getValue(Outfit.class);
                             o.outfitId = dataSnapshot.getKey();
                             outfits.remove(o);
                             adapter.notifyDataSetChanged();*/
-                    }
+                        }
 
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        dbCancelled(databaseError);
-                    }
-                });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            dbCancelled(databaseError);
+                        }
+                    });
+        }
     }
 
     private void dbCancelled(DatabaseError databaseError){

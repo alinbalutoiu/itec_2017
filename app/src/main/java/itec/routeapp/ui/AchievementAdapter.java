@@ -71,7 +71,7 @@ public class AchievementAdapter extends BaseAdapter{
         itemHolder.month.setText(Month.values()[ach.getMonth()].getTitle());
         //this should be parametrizable (if we had more types of achievements)
         itemHolder.achievementTitle.setText("Eco friendly: ");
-        itemHolder.counter.setText(ach.getTotalAchievements());
+        itemHolder.counter.setText(String.valueOf(ach.getTotalAchievements()));
 
         return view;
     }

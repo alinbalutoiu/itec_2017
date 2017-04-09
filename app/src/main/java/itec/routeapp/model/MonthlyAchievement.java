@@ -16,6 +16,7 @@ public class MonthlyAchievement {
     private Integer totalAchievements;
 
     public MonthlyAchievement() {
+
     }
 
     public Integer getMonth() {
