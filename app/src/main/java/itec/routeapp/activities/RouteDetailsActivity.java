@@ -3,6 +3,7 @@ package itec.routeapp.activities;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,7 +19,7 @@ import java.util.List;
 import itec.routeapp.R;
 import itec.routeapp.newroute.LocationRecordingActivity;
 
-public class RouteDetailsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class RouteDetailsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
 
     private List<PolylineOptions> polylineOptionsList = null;
     private static List<Location> points = null;
@@ -34,6 +35,7 @@ public class RouteDetailsActivity extends FragmentActivity implements OnMapReady
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        builder = new LatLngBounds.Builder();
     }
 
 
@@ -50,6 +52,11 @@ public class RouteDetailsActivity extends FragmentActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //todo Alin, nu se coloreaza aici!
+        mMap.setOnMapLoadedCallback(this);
+    }
+
+    @Override
+    public void onMapLoaded() {
         drawPolyLineOnMap(points, mMap);
     }
 
@@ -71,6 +78,7 @@ public class RouteDetailsActivity extends FragmentActivity implements OnMapReady
         polyOptions.add(first);
         builder.include(first);
         mMap.addMarker(new MarkerOptions().position(first).title("Starting point"));
+
         locationList.remove(0);
         for (Location x : locationList) {
             LatLng ll = new LatLng(x.getLatitude(), x.getLongitude());
@@ -81,9 +89,11 @@ public class RouteDetailsActivity extends FragmentActivity implements OnMapReady
             if (switched_color) {
                 polyOptions.color(previous_color);
                 polyOptions.width(24f);
-                googleMap.addPolyline(polyOptions);
+                Log.e("Adding polyline:", "" + x.toString());
+//                googleMap.addPolyline(polyOptions);
                 polyOptions = new PolylineOptions();
             }
+            googleMap.addPolyline(polyOptions);
             builder.include(ll);
             last = ll;
         }
@@ -91,5 +101,6 @@ public class RouteDetailsActivity extends FragmentActivity implements OnMapReady
         LatLngBounds bounds = builder.build();
         int padding = 20; // offset from edges of the map in pixels
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
+
     }
 }
