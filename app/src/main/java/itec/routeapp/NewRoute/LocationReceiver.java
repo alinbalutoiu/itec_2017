@@ -1,4 +1,4 @@
-package itec.routeapp.NewRoute;
+package itec.routeapp.newroute;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

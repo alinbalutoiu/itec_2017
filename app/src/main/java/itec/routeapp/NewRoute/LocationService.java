@@ -1,4 +1,4 @@
-package itec.routeapp.NewRoute;
+package itec.routeapp.newroute;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -44,7 +44,7 @@ public class LocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "onStartCommand");
         super.onStartCommand(intent, flags, startId);
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Override

@@ -10,10 +10,9 @@ import android.view.View;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import itec.routeapp.AppState;
-import itec.routeapp.NewRoute.LocationRecordingActivity;
+import itec.routeapp.newroute.LocationRecordingActivity;
 import itec.routeapp.R;
 import itec.routeapp.utils.AuthUtils;
 

@@ -1,4 +1,4 @@
-package itec.routeapp.NewRoute;
+package itec.routeapp.newroute;
 
 import android.app.Activity;
 import android.content.Context;
@@ -43,6 +43,7 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
     private static PolylineOptions mPolylineOptions = null;
     private static LatLng startingPoint = null;
     private static List<Location> pointsToBeUpdated = new ArrayList<>();
+    private static boolean first_show_current_location = false;
     private static int zoomCamera = 16;
     private static boolean isRealTimeOn = false;
     private static int lineWidth = 24;
@@ -61,6 +62,13 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
             }
             updateGMaps(loc, null);
         } else {
+            if (!first_show_current_location && loc != null) {
+                Log.e(TAG, "First location: " + loc);
+                LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
+                updateMarker(latLng);
+                updateCamera(latLng);
+                first_show_current_location = true;
+            }
             pointsToBeUpdated.add(loc);
         }
     }
@@ -69,9 +77,11 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
         if (locationList == null) {
             Log.e(TAG, "Updating GMaps with single element");
             LatLng latLng = new LatLng(singleLoc.getLatitude(), singleLoc.getLongitude());
-            updatePolyline(singleLoc, location_points_list.get(location_points_list.size() - 2));
-            updateMarker(latLng);
-            updateCamera(latLng);
+            if (location_points_list.size() - 2 >= 0) {
+                updatePolyline(singleLoc, location_points_list.get(location_points_list.size() - 2));
+                updateMarker(latLng);
+                updateCamera(latLng);
+            }
         } else {
             Log.e(TAG, "Updating GMaps with list");
             LatLng last_point = null;
@@ -306,7 +316,8 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
 //        add_location_to_list(cLoc);
         if (startingPoint == null) {
             Location cLoc = getLastKnownLocation();
-            add_location_to_list(cLoc);
+            if (cLoc != null)
+                add_location_to_list(cLoc);
         }
         mMap.getView().setVisibility(View.VISIBLE);
     }
@@ -375,10 +386,10 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
     }
 
     private Location getLastKnownLocation() {
-        Location cLoc;
+        Location cLoc = null;
         if (location_points_list.size() != 0)
             cLoc = location_points_list.get(location_points_list.size() - 1);
-        else
+        else if (pointsToBeUpdated.size() != 0)
             cLoc = pointsToBeUpdated.get(0);
         return cLoc;
     }
