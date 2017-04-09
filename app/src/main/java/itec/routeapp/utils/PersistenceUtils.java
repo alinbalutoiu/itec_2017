@@ -116,4 +116,9 @@ public class PersistenceUtils {
         dailyAchievementCounter = counter;
     }
 
+    public static List<Location> getPointsForBuildingRoute(String routeId){
+        //todo
+        return null;
+    }
+
 }
