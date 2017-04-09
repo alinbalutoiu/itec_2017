@@ -52,19 +52,39 @@ public class PersistenceUtils {
         route.setYear(year);
         route.setTransport(meansOfTransport);
 
+        float totalDistance = 0;
+        double avgSpeedSum = 0.0;
+        int noPoints = 0;
+
+        Location previousLocation = null;
         List<Reading> readings = new ArrayList<>();
         route.setReadings(readings);
         for(Location point : points){
             readings.add(new Reading(point.getElapsedRealtimeNanos(), point.getLatitude(),
                     point.getLongitude(), point.getAltitude(), point.getSpeed()));
+            if(previousLocation == null){
+                previousLocation = point;
+            }
+            float prevDist = point.distanceTo(previousLocation);
+            totalDistance += prevDist;
+
+            if(point.getSpeed() != 0.0 && prevDist != 0.0){
+                avgSpeedSum += point.getSpeed();
+                noPoints++;
+            }
+
+            previousLocation.set(point);
         }
+
+        route.setTotalDistance(totalDistance);
+        route.setAverageSpeed(avgSpeedSum / noPoints);
 
         // persist to firebase
         AppState appState = AppState.get();
         DatabaseReference database = appState.getDatabaseReference();
         database.child(appState.getUserId()).child("routes")
                 .child(String.valueOf(year))
-                .child(String.valueOf(month)).child(String.valueOf(day))
+                .child(String.valueOf(month))
                 .child(String.valueOf(routeStartingTime))
                 .setValue(route);
     }
@@ -116,9 +136,18 @@ public class PersistenceUtils {
         dailyAchievementCounter = counter;
     }
 
-    public static List<Location> getPointsForBuildingRoute(String routeId){
-        //todo
-        return null;
+    public static List<Location> getLocationPointsFromReadingsList(List<Reading> readings){
+        final List<Location> locationList = new ArrayList<>();
+        for(Reading reading : readings){
+            Location loc = new Location("Database");
+            loc.setLatitude(reading.getLatitude());
+            loc.setLongitude(reading.getLongitude());
+            loc.setSpeed(Float.parseFloat(String.valueOf(reading.getSpeed())));
+            loc.setAltitude(reading.getAltitude());
+            loc.setElapsedRealtimeNanos(reading.getElapsedRealtimeNanos());
+            locationList.add(loc);
+        }
+        return locationList;
     }
 
 }

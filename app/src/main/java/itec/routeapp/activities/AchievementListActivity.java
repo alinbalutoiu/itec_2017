@@ -112,7 +112,7 @@ public class AchievementListActivity extends AppCompatActivity {
     }
 
     private void updateTodayCounter(Integer counter){
-        dailyAchText.setText(String.valueOf(counter));
+//        dailyAchText.setText(String.valueOf(counter));
     }
 
 }

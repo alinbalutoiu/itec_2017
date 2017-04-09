@@ -18,14 +18,14 @@ public class Reading implements Serializable{
     private Double longitude;
     private Double altitude;
 
-    private float speed;
+    private Double speed;
 //    private Double legalSpeedLimit;
 
     public Reading() {
     }
 
     public Reading(long elapsedRealtimeNanos, Double latitude, Double longitude, Double altitude,
-                   float speed) {
+                   double speed) {
         this.elapsedRealtimeNanos = elapsedRealtimeNanos;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -49,7 +49,7 @@ public class Reading implements Serializable{
         return altitude;
     }
 
-    public float getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 }

@@ -50,7 +50,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.GoogleMapsActivity"
+            android:name=".activities.RouteDetailsActivity"
             android:label="@string/title_activity_google_maps" />
         <activity
             android:name=".newroute.LocationRecordingActivity"

@@ -31,6 +31,10 @@ public class Route implements Serializable{
 
 //    private int percentGoodDriver;
 
+    private Double totalDistance;
+
+    private Double averageSpeed;
+
     public Route() {
     }
 
@@ -104,5 +108,21 @@ public class Route implements Serializable{
 
     public Integer getDayOfWeek() {
         return dayOfWeek;
+    }
+
+    public Double getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTotalDistance(double totalDistance) {
+        this.totalDistance = totalDistance;
+    }
+
+    public Double getAverageSpeed() {
+        return averageSpeed;
+    }
+
+    public void setAverageSpeed(Double averageSpeed) {
+        this.averageSpeed = averageSpeed;
     }
 }

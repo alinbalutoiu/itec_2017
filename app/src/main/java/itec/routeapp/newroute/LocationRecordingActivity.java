@@ -165,11 +165,15 @@ public class LocationRecordingActivity extends Activity implements OnMapReadyCal
     }
 
     static private void updateMarker(LatLng mLatLng) {
-        gMap.addMarker(new MarkerOptions().position(mLatLng));
+        if(gMap != null){
+            gMap.addMarker(new MarkerOptions().position(mLatLng));
+        }
     }
 
     static private void updateCamera(LatLng mLatLng) {
-        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, zoomCamera));
+        if(gMap != null){
+            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, zoomCamera));
+        }
     }
 
     @Override

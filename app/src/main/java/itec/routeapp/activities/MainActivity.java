@@ -92,16 +92,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //todo
     public void clicked(View v){
         switch (v.getId()){
             case R.id.all_routes_image:
-//                startActivity(new Intent(this, RouteListActivity.class));
+                startActivity(new Intent(this, RouteListActivity.class));
                 break;
             case R.id.new_route_image:
                 createRecordingLocationActivity();
                 break;
             case R.id.stats_image:
+                //todo
                 break;
             case R.id.achievements_image:
                 startActivity(new Intent(this, AchievementListActivity.class));
