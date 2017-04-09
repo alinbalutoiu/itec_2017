@@ -55,8 +55,7 @@
         <activity
             android:name=".newroute.LocationRecordingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_location_recording"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:label="@string/title_activity_location_recording" />
     </application>
 
 </manifest>

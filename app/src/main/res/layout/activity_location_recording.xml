@@ -2,9 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_overlay"
+
     android:weightSum="4"
     tools:context="itec.routeapp.newroute.LocationRecordingActivity">
+    <!--android:background="@color/black_overlay"-->
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -20,7 +21,9 @@
         android:text="@string/realtime_viewing_on"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="19dp" />
+        android:background="@drawable/button_selector2"
+        android:layout_marginBottom="19dp"
+        android:padding="3dp" />
 
     <TextView
         android:id="@+id/internet_required_texthelp"
@@ -43,7 +46,9 @@
         android:layout_marginTop="84dp"
         android:text="@string/start_recording_location"
         android:textAlignment="center"
-        android:textSize="18sp" />
+        android:background="@drawable/button_selector2"
+        android:textSize="18sp"
+        android:padding="3dp" />
 
     <TextView
         android:id="@+id/location_recorded"
