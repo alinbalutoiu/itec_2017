@@ -9,18 +9,22 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
 
 import itec.routeapp.R;
+import itec.routeapp.newroute.LocationRecordingActivity;
 
 public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private List<PolylineOptions> polylineOptionsList = null;
     private static List<Location> points = null;
     private GoogleMap mMap;
+    private LatLngBounds.Builder builder = new LatLngBounds.Builder();
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,34 +51,49 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        drawPolyLineOnMap(points, mMap);
     }
 
     static public void set_points(List<Location> locationList) {
         points = locationList;
     }
 
-    public void drawPolyLineOnMap(List<Location> locationList, GoogleMap googleMap) {
+    private void drawPolyLineOnMap(List<Location> locationList, GoogleMap googleMap) {
 
-//        PolylineOptions polyOptions = new PolylineOptions();
-////        polyOptions.color(Color.GREEN);
-////        polyOptions.width(8);
-////        polyOptions.addAll(list);
-//        boolean switched_color = false;
-//        int new_color = LocationRecordingActivity.chooseColor((int)locationList.get(0).getSpeed());
-//        polyOptions
-//        locationList.remove(0);
-//        for (Location x : locationList) {
-//
-//            polyOptions
-//        }
-//        googleMap.addPolyline(polyOptions);
-//        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-//        for (LatLng latLng : list) {
-//            builder.include(latLng);
-//        }
-//        builder.build();
+        PolylineOptions polyOptions = new PolylineOptions();
+//        polyOptions.color(Color.GREEN);
+//        polyOptions.width(8);
+//        polyOptions.addAll(list);
+        boolean switched_color = false;
+        int previous_color = 0;
+        int new_color = LocationRecordingActivity.chooseColor((int) locationList.get(0).getSpeed());
+        LatLng first = new LatLng(locationList.get(0).getLatitude(), locationList.get(0).getLongitude());
+        LatLng last = first;
+        polyOptions.add(first);
+        builder.include(first);
+        mMap.addMarker(new MarkerOptions().position(first).title("Starting point"));
+        locationList.remove(0);
+        for (Location x : locationList) {
+            LatLng ll = new LatLng(x.getLatitude(), x.getLongitude());
+            previous_color = new_color;
+            new_color = LocationRecordingActivity.chooseColor((int) locationList.get(0).getSpeed());
+            switched_color = previous_color != new_color;
+            polyOptions.add(ll);
+            if (switched_color) {
+                polyOptions.color(previous_color);
+                polyOptions.width(24f);
+                googleMap.addPolyline(polyOptions);
+                polyOptions = new PolylineOptions();
+            }
+            builder.include(ll);
+            last = ll;
+        }
+        mMap.addMarker(new MarkerOptions().position(last).title("Finishing point"));
+        LatLngBounds bounds = builder.build();
+        int padding = 20; // offset from edges of the map in pixels
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
     }
 }
